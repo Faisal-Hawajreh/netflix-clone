@@ -4,6 +4,7 @@ import React, { useState } from "react";
 function Movie(props) {
     const [showModal, setShowModal] = useState(false);
     const [Movie, setMovie] = useState();
+    
     // console.log(props.data)
     return (
         <>
