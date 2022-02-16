@@ -1,18 +1,21 @@
-import Home from './Components/Home/Home';
 import './App.css';
+import Home from './Components/Home/Home';
+import NavBar from './Components/NavBar/NavBar';
 
 function App() {
+
   return (
     <>
-    <header>
-    </header>
+      <header>
+      <NavBar/>
+      </header>
 
-    <main>
-      <Home/>
-    </main>
+      <main>
+        <Home />
+      </main>
 
-    <footer>
-    </footer>
+      <footer>
+      </footer>
     </>
   );
 }
