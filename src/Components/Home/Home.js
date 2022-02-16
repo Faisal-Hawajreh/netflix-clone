@@ -1,32 +1,55 @@
-import React, { useEffect,useState } from "react";
+import React, { useEffect, useState } from "react";
 import MovieList from "../MovieList/MovieList";
+import { Routes, Route } from "react-router-dom";
+import FavList from "../FavList /FavList";
+
 function Home() {
     const [Data, setData] = useState();
+    const [favoriteList, SetFavList] = useState([])
 
     const fetchData = async () => {
         try {
-            const responseRend = await fetch(`https://movie-app-faisal.herokuapp.com/trending`)
-            const responseList = await fetch("https://api.themoviedb.org/3/trending/movie/day?api_key=37ddc7081e348bf246a42f3be2b3dfd0")
-
+            const responseRend = await fetch(`${process.env.REACT_APP_SERVER}/trending`)
             const RendData = await responseRend.json();
-            const ListData = await responseList.json();
-            setData(ListData.results)
-            console.log(ListData.results)
-            console.log(RendData)
-
+            setData(RendData)
+            // console.log(RendData)
         } catch (error) {
             console.log("error", error);
         }
-
     }
-    useEffect(() => { fetchData(); }, [])
+    const fetchData1 = async () => {
+        try {
 
+            const responseAddMovie = await fetch(`${process.env.REACT_APP_SERVER}/getMovies`)
+            const AddMovieData = await responseAddMovie.json();
+            SetFavList(AddMovieData);
+            console.log(AddMovieData)
+        } catch (error) {
+            console.log("error", error);
+        }
+    }
+
+    useEffect(() => { fetchData(); fetchData1(); }, [])
+
+    const updateComment = (data, id) => {
+        let updatedMovie = Data.map(movie => {
+            if (movie.id === id) {
+                movie.comment = data.userComment;
+                return movie;
+            }
+            else return movie
+        })
+        setData(updatedMovie);
+    }
 
     return (
         <>
-            <p>Home Page</p>
+            <Routes>
+                <Route path="/" element={<MovieList MovieData={Data} updateComment={updateComment}/>} />
+                <Route path="/FavList" element={<FavList favoriteList={favoriteList} />} />
+            </Routes>
 
-            <MovieList MovieData={Data}/>
+
         </>
     )
 }

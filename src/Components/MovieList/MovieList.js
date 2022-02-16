@@ -8,13 +8,13 @@ function MovieList(props) {
             <p>This is movie list</p>
             {console.log(data)}
 
-                {
-                    data && data.map((movie) => {
-                        return (
-                            <Movie data={movie} key={movie.id} />
-                        )
-                    })
-                }
+            {
+                data && data.map((movie) => {
+                    return (
+                        <Movie data={movie} key={movie.id} updateComment={props.updateComment}/>
+                    )
+                })
+            }
 
         </>
     )
